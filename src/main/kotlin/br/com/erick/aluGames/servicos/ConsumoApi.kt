@@ -1,6 +1,6 @@
-package br.com.erick.AluGames.servicos
+package br.com.erick.aluGames.servicos
 
-import br.com.erick.AluGames.modelo.InfoJogo
+import br.com.erick.aluGames.modelo.InfoJogo
 import com.google.gson.Gson
 import java.net.URI
 import java.net.http.HttpClient

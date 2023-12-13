@@ -1,6 +1,6 @@
-package br.com.erick.AluGames.principal
+package br.com.erick.aluGames.principal
 
-import br.com.erick.AluGames.modelo.Gamer
+import br.com.erick.aluGames.modelo.Gamer
 
 fun main() {
     val gamer1 = Gamer("Erick", "erick@email.com")
@@ -11,7 +11,8 @@ fun main() {
     gamer1.let {
         it.dataNascimento = "18/09/2000"
         it.usuario = "erick"
-        it.idInterno = "erick1234"
+    }.also {
+        println(gamer1.idInterno)
     }
     println(gamer1)
 }

@@ -1,4 +1,4 @@
-package br.com.erick.AluGames.modelo
+package br.com.erick.aluGames.modelo
 
 data class InfoJogo(val info: InfoApiShark) {
     override fun toString(): String {
