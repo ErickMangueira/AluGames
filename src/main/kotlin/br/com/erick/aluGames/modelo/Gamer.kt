@@ -1,10 +1,11 @@
 package br.com.erick.aluGames.modelo
 
 import java.lang.IllegalArgumentException
+import java.time.LocalDate
 import java.util.Scanner
 import kotlin.random.Random
 
-data class Gamer(var nome: String, var email: String) {
+data class Gamer(var nome: String, var email: String): Recomendavel  {
     var dataNascimento: String? = null
     var usuario: String? = null
         set(value) {
@@ -16,7 +17,22 @@ data class Gamer(var nome: String, var email: String) {
     var idInterno: String? = null
         private set
 
-    val jogosBuscados = mutableListOf<Jogo?>();
+    val jogosBuscados = mutableListOf<Jogo?>()
+    val jogosAlugados = mutableListOf<Aluguel?>()
+    var plano: Plano = PlanoAvulso("BRONZE")
+    private val listaNotas = mutableListOf<Int>()
+    val jogosRecomendados = mutableListOf<Jogo>()
+
+    override  val media: Double
+        get() = listaNotas.average()
+
+    override fun recomendar(nota: Int) {
+        listaNotas.add(nota)
+    }
+    fun recomendarJogo(jogo: Jogo, nota: Int) {
+        jogo.recomendar(nota)
+        jogosRecomendados.add(jogo)
+    }
 
     constructor(nome: String, email: String, dataNascimento: String, usuario: String) :
             this(nome, email) {
@@ -24,15 +40,15 @@ data class Gamer(var nome: String, var email: String) {
         this.usuario = usuario
         criarIdInterno()
     }
-//    init {
-//        if (nome.isNullOrBlank()) {
-//            throw IllegalArgumentException("Nome está em branco")
-//        }
-//        this.email = validarEmail()
-//    }
+    init {
+        if (nome.isNullOrBlank()) {
+            throw IllegalArgumentException("Nome está em branco")
+        }
+        this.email = validarEmail()
+    }
 
     override fun toString(): String {
-        return "Gamer(nome='$nome', email='$email', dataNascimento=$dataNascimento, usuario=$usuario, idInterno=$idInterno)"
+        return "Gamer(nome='$nome', email='$email', dataNascimento=$dataNascimento, usuario=$usuario, idInterno=$idInterno, Reputação: ${String.format("%.2f", media)})"
     }
 
     fun criarIdInterno() {
@@ -50,6 +66,16 @@ data class Gamer(var nome: String, var email: String) {
             throw IllegalArgumentException("Email inválido")
         }
 
+    }
+    fun alugaJogo(jogo: Jogo, periodo: Periodo): Aluguel {
+        val aluguel =  Aluguel(this, jogo, periodo)
+        jogosAlugados.add(aluguel)
+        return aluguel
+    }
+    fun jogosDoMes(mes: Int): List<Jogo> {
+        return  jogosAlugados
+            .filter { aluguel -> aluguel?.periodo?.dataInicial?.monthValue == mes}
+            .map { aluguel -> aluguel?.jogo!! }
     }
     companion object {
         fun criarGamer(leitura: Scanner): Gamer {
