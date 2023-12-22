@@ -14,6 +14,7 @@ data class Gamer(var nome: String, var email: String): Recomendavel  {
                 criarIdInterno()
             }
         }
+    var id = 0
     var idInterno: String? = null
         private set
 
@@ -34,10 +35,11 @@ data class Gamer(var nome: String, var email: String): Recomendavel  {
         jogosRecomendados.add(jogo)
     }
 
-    constructor(nome: String, email: String, dataNascimento: String, usuario: String) :
+    constructor(nome: String, email: String, dataNascimento: String?, usuario: String?, id: Int = 0) :
             this(nome, email) {
         this.dataNascimento = dataNascimento
         this.usuario = usuario
+        this.id = id
         criarIdInterno()
     }
     init {
@@ -48,7 +50,7 @@ data class Gamer(var nome: String, var email: String): Recomendavel  {
     }
 
     override fun toString(): String {
-        return "Gamer(nome='$nome', email='$email', dataNascimento=$dataNascimento, usuario=$usuario, idInterno=$idInterno, Reputação: ${String.format("%.2f", media)})"
+        return "Gamer(nome='$nome', email='$email', dataNascimento=$dataNascimento, usuario=$usuario, idInterno=$idInterno,id:$id, Reputação: ${String.format("%.2f", media)})"
     }
 
     fun criarIdInterno() {

@@ -1,10 +1,12 @@
 package br.com.erick.aluGames.modelo
 
 import com.google.gson.annotations.Expose
+import javax.persistence.*
 
 data class Jogo(@Expose val titulo: String, @Expose val capa: String): Recomendavel {
     var descricao:String? = null
     var preco = 0.0
+    var id = 0
     private  val listaNotas = mutableListOf<Int>()
 
     override val media: Double
@@ -13,7 +15,7 @@ data class Jogo(@Expose val titulo: String, @Expose val capa: String): Recomenda
     override fun recomendar(nota: Int) {
         listaNotas.add(nota)
     }
-    constructor(titulo: String, capa: String, preco: Double, descricao: String): this(titulo, capa) {
+    constructor(titulo: String, capa: String, preco: Double, descricao: String, id: Int = 0): this(titulo, capa) {
         this.preco = preco
         this.descricao = descricao
     }
@@ -25,7 +27,8 @@ data class Jogo(@Expose val titulo: String, @Expose val capa: String): Recomenda
                 "Capa:   $capa \n" +
                 "Descrição: $descricao \n" +
                 "Preço: $preco \n" +
-                "Reputação: $media"
+                "Reputação: $media \n" +
+                "Id: $id"
     }
 
 
